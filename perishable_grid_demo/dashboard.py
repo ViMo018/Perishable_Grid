@@ -17,6 +17,41 @@ MODEL_PATH = ROOT / "models" / "ev_demand_lightgbm.joblib"
 FORECAST_PATH = ROOT / "results" / "forecast_for_simulator.csv"
 
 
+def _forecast_markdown_table(frame: pd.DataFrame) -> str:
+    """Render small forecast outputs without Streamlit's interactive DataFrame grid.
+
+    Community Cloud can fail while fetching the lazily-loaded DataFrame JS chunk.
+    This static Markdown table avoids requesting that frontend bundle entirely.
+    """
+    columns = [
+        ("timestamp", "Timestamp (site local)"),
+        ("site_id", "ACN site"),
+        ("predicted_demand_kwh", "Forecast (kWh)"),
+        ("predicted_demand_mwh", "Forecast (MWh)"),
+        ("p10_demand_kwh", "P10 (kWh)"),
+        ("p50_demand_kwh", "P50 (kWh)"),
+        ("p90_demand_kwh", "P90 (kWh)"),
+    ]
+    header = "| " + " | ".join(label for _, label in columns) + " |"
+    separator = "| " + " | ".join("---" for _ in columns) + " |"
+    rows = [header, separator]
+
+    for _, record in frame.iterrows():
+        cells = []
+        for key, _ in columns:
+            value = record[key]
+            if key == "timestamp":
+                rendered = str(value).replace("|", "\\|")
+            elif key == "site_id":
+                rendered = str(value).replace("|", "\\|")
+            else:
+                rendered = "—" if pd.isna(value) else f"{float(value):,.3f}"
+            cells.append(rendered)
+        rows.append("| " + " | ".join(cells) + " |")
+
+    return "\n".join(rows)
+
+
 def main() -> None:
     try:
         import streamlit as st
@@ -64,10 +99,15 @@ def main() -> None:
         forecast["p10_demand_mwh"] = kwh_to_mwh(forecast["p10_demand_kwh"])
         forecast["p50_demand_mwh"] = kwh_to_mwh(forecast["p50_demand_kwh"])
         forecast["p90_demand_mwh"] = kwh_to_mwh(forecast["p90_demand_kwh"])
-        st.dataframe(forecast[required + [
-            "predicted_demand_mwh", "p10_demand_mwh", "p50_demand_mwh", "p90_demand_mwh"
-        ]], use_container_width=True)
-        st.caption("The model forecasts session-arrival cohort energy (kWh), not exact physical consumption during that clock hour.")
+
+        # The CSV is only three site rows in this supplied run. A static Markdown
+        # table is clearer here and avoids Streamlit's lazily imported DataFrame
+        # frontend chunk, which is the asset named in the reported browser error.
+        st.markdown(_forecast_markdown_table(forecast))
+        st.caption(
+            "The model forecasts session-arrival cohort energy (kWh), not exact physical "
+            "consumption during that clock hour. MWh values are kWh / 1,000."
+        )
 
     st.divider()
     st.caption("The dispatch simulator remains heuristic. Forecasting, dispatch, battery-health assumptions and market participation are separate capabilities.")
