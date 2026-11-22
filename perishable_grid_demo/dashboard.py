@@ -1,0 +1,77 @@
+"""Small dashboard wrapper for the existing simulator and ACN-trained model.
+
+The ACN model is displayed as a separate U.S.-site forecast source. It is not
+silently substituted into the five synthetic Indian metro-cluster dispatches.
+"""
+from __future__ import annotations
+
+from pathlib import Path
+
+import pandas as pd
+
+from simulate import CLUSTERS, make_data
+from forecasting.preprocessing import kwh_to_mwh
+
+ROOT = Path(__file__).resolve().parent
+MODEL_PATH = ROOT / "models" / "ev_demand_lightgbm.joblib"
+FORECAST_PATH = ROOT / "results" / "forecast_for_simulator.csv"
+
+
+def main() -> None:
+    try:
+        import streamlit as st
+    except ImportError as exc:
+        raise SystemExit("Streamlit is not installed. Run: pip install -r requirements.txt") from exc
+
+    st.set_page_config(page_title="The Perishable Grid", layout="wide")
+    st.title("The Perishable Grid")
+    st.caption("Heuristic dispatch simulation and a separately trained ACN-Data demand forecaster")
+
+    model_available = MODEL_PATH.exists() and FORECAST_PATH.exists()
+    forecast_sources = ["Existing seasonal-naive forecast"]
+    if model_available:
+        forecast_sources.append("Trained LightGBM forecast")
+    selected_source = st.sidebar.selectbox("Forecast source", forecast_sources)
+
+    if selected_source == "Existing seasonal-naive forecast":
+        st.subheader("Existing simulator: seasonal-naive demand forecast")
+        st.info("This is the original synthetic five-cluster forecast. It uses the previous day's same cluster/hour and remains available without a trained model.")
+        selected_cluster = st.selectbox("Indian metro cluster", CLUSTERS)
+        sim_data = make_data()
+        sim_data = sim_data[sim_data.day > 1].copy()
+        chart_data = sim_data[sim_data.cluster == selected_cluster].set_index("hour_index")[[
+            "demand_mwh", "forecast_demand_mwh"
+        ]].rename(columns={
+            "demand_mwh": "Synthetic demand (MWh)",
+            "forecast_demand_mwh": "Seasonal-naive forecast (MWh)",
+        })
+        st.line_chart(chart_data)
+        st.caption("Illustrative synthetic simulator inputs, not measured demand from an Indian charging operator.")
+    else:
+        st.subheader("Trained LightGBM: next-hour ACN site forecast")
+        st.warning(
+            "The supplied ACN sites are in California (America/Los_Angeles), and their last observations are from 2018–2021. "
+            "The displayed next-hour rows are historical-origin pipeline examples, not current live forecasts. They are not "
+            "mapped to Delhi NCR, Mumbai MMR, Bengaluru, Hyderabad or Chennai and are not fed into the Indian-cluster dispatch engine."
+        )
+        forecast = pd.read_csv(FORECAST_PATH, dtype={"site_id": str})
+        required = ["timestamp", "site_id", "predicted_demand_kwh", "p10_demand_kwh", "p50_demand_kwh", "p90_demand_kwh"]
+        missing = [column for column in required if column not in forecast.columns]
+        if missing:
+            st.error(f"Forecast file is missing columns: {missing}")
+            return
+        forecast["predicted_demand_mwh"] = kwh_to_mwh(forecast["predicted_demand_kwh"])
+        forecast["p10_demand_mwh"] = kwh_to_mwh(forecast["p10_demand_kwh"])
+        forecast["p50_demand_mwh"] = kwh_to_mwh(forecast["p50_demand_kwh"])
+        forecast["p90_demand_mwh"] = kwh_to_mwh(forecast["p90_demand_kwh"])
+        st.dataframe(forecast[required + [
+            "predicted_demand_mwh", "p10_demand_mwh", "p50_demand_mwh", "p90_demand_mwh"
+        ]], use_container_width=True)
+        st.caption("The model forecasts session-arrival cohort energy (kWh), not exact physical consumption during that clock hour.")
+
+    st.divider()
+    st.caption("The dispatch simulator remains heuristic. Forecasting, dispatch, battery-health assumptions and market participation are separate capabilities.")
+
+
+if __name__ == "__main__":
+    main()

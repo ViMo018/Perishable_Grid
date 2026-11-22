@@ -1,0 +1,7 @@
+  policy  reliability_pct  modelled_loss_proxy_pct  procurement_cost_rs_lakh  wear_cost_rs_lakh  discount_value_rs_lakh  gross_contribution_rs_lakh  unserved_mwh  battery_throughput_mwh  renewable_utilisation_pct  grid_and_renewable_input_mwh  delivered_energy_mwh
+baseline            81.70                     2.60                  5,712.66              13.17                    0.00                    6,729.52     19,921.13                1,866.78                     100.00                     91,073.92             88,966.70
+forecast            86.31                     3.19                  4,758.54              89.63                    0.00                    8,309.81     14,902.29               13,480.70                      99.95                     96,816.64             93,985.54
+  health            86.46                     3.20                  4,797.10              81.93                    0.00                    8,301.67     14,739.97               13,561.21                      99.99                     97,453.79             94,147.86
+    full            87.58                     3.14                  4,856.90              76.54                   22.85                    8,394.09     13,527.96               12,666.51                     100.00                     98,584.48             95,359.87
+
+Wrote outputs to /mnt/data/perishable_grid_demo

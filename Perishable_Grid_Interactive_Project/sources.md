@@ -1,0 +1,10 @@
+# Sources and what each one supports
+
+1. **IEX Day-Ahead Market** — describes DAM as a physical next-day market with a double-sided closed auction. This supports the physical-market framing, not a claim that the prototype can place bids. https://www.iexindia.com/products/day-ahead-market
+2. **IEX Real-Time Market** — describes half-hourly sessions and delivery one hour after market closure. https://www.iexindia.com/products/real-time-market
+3. **Tesla Autobidder** — Tesla describes the platform as real-time trading and control for market bidding and dispatch of storage assets. https://www.tesla.com/en_in/support/energy/tesla-software/autobidder
+4. **Fluence Mosaic** — Fluence describes machine-learning price forecasting and optimisation for day-ahead and real-time market participation. https://fluenceenergy.com/mosaic-intelligent-bidding-software/
+5. **Octopus Energy smart charging** — describes using technology to schedule EV charging during cheaper and greener periods. This is an example of smart charging, not proof that this project's specific incentive design will work. https://octopus.energy/evc-support/
+6. **CERC Ancillary Services Regulations, 2022** — establishes India's ancillary-services framework. Eligibility and operating procedures must be checked for the actual asset and market route. https://cercind.gov.in/Regulations/Ancillary-Service-Regulations-2022.pdf
+7. **NITI Aayog, Need for ACC Energy Storage in India** — discusses second-life batteries and stationary applications. It does not validate the prototype's assumed 70/30 battery split. https://www.niti.gov.in/sites/default/files/2023-03/Need-for-ACC-Energy-Storage-in-India.pdf
+8. **“Battery degradation: Impact on economic dispatch,” Energy Storage (Wiley), 2024** — studies cycle-depth and SoC-related degradation in economic dispatch and explains why ignoring degradation can distort arbitrage decisions. The journal is Wiley's *Energy Storage*, not Elsevier's *Journal of Energy Storage*. https://onlinelibrary.wiley.com/doi/full/10.1002/est2.588

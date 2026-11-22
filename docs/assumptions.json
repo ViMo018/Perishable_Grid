@@ -1,0 +1,39 @@
+{
+  "status": "illustrative synthetic assumptions; not real operator data",
+  "seed": 42,
+  "test_days": 14,
+  "warmup_days": 1,
+  "forecast_method": "one-day seasonal naive baseline (same cluster/hour, previous day)",
+  "clusters": [
+    "Delhi NCR",
+    "Mumbai MMR",
+    "Bengaluru",
+    "Hyderabad",
+    "Chennai"
+  ],
+  "battery_mwh_per_cluster": 120.0,
+  "battery_mw_per_cluster_assumed": 30.0,
+  "grid_import_mw_per_cluster_assumed": 38.0,
+  "reserve_fraction": 0.05,
+  "line_efficiency_assumed": 0.975,
+  "charge_efficiency_assumed": 0.95,
+  "discharge_efficiency_assumed": 0.95,
+  "DISCOM_tariff_rs_kwh_assumed": 8.5,
+  "renewable_cost_rs_kwh_assumed": 3.5,
+  "retail_tariff_rs_kwh_assumed": 14.0,
+  "rapid_battery_share_assumed": 0.7,
+  "rapid_SoH_assumed": 0.9,
+  "second_life_share_assumed": 0.3,
+  "second_life_SoH_assumed": 0.8,
+  "flexible_demand_share_assumed": 0.4,
+  "shift_share_of_flexible_peak_demand_assumed": 0.15,
+  "shift_discount_assumed": 0.1,
+  "important_limitations": [
+    "Heuristic dispatch, not MILP solver output",
+    "No actual five-year operator data",
+    "No VPP revenue included",
+    "No inter-hub pack transport implemented",
+    "No fixed O&M, capex, taxes or depreciation; gross contribution is not EBITDA",
+    "Loss metric is a simplified model proxy and should be reconciled to the operator's metering boundary"
+  ]
+}

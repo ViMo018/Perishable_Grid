@@ -1,0 +1,432 @@
+{
+  "objective": "next-hour arrival-cohort energy demand per ACN site",
+  "target_column": "arrival_energy_kwh",
+  "target_units": "kWh",
+  "target_interpretation": "sum of kWhDelivered for sessions starting in the hour; not physical consumption during that hour",
+  "estimator": "LightGBM Regressor",
+  "estimator_type": "lightgbm",
+  "lightgbm_available": true,
+  "chronological_split": "70% train / 15% validation / 15% final test, independently per site, ordered by local-hour instant",
+  "split_counts_by_site": {
+    "0001": {
+      "test": 909,
+      "train": 4242,
+      "validation": 909
+    },
+    "0002": {
+      "test": 617,
+      "train": 2877,
+      "validation": 616
+    },
+    "0019": {
+      "test": 3227,
+      "train": 15056,
+      "validation": 3227
+    }
+  },
+  "validation_candidate_results": [
+    {
+      "parameters": {
+        "n_estimators": 250,
+        "learning_rate": 0.04,
+        "num_leaves": 15,
+        "max_depth": -1,
+        "min_child_samples": 25,
+        "reg_lambda": 1.0
+      },
+      "mae_kwh": 5.34157846101342,
+      "rmse_kwh": 17.969204472341566,
+      "wape_pct": 54.42363687271797,
+      "sample_count": 4752,
+      "actual_energy_kwh": 46639.993769802815
+    },
+    {
+      "parameters": {
+        "n_estimators": 350,
+        "learning_rate": 0.03,
+        "num_leaves": 31,
+        "max_depth": -1,
+        "min_child_samples": 40,
+        "reg_lambda": 2.0
+      },
+      "mae_kwh": 5.217826796809332,
+      "rmse_kwh": 17.351465974615635,
+      "wape_pct": 53.16277069164534,
+      "sample_count": 4752,
+      "actual_energy_kwh": 46639.993769802815
+    },
+    {
+      "parameters": {
+        "n_estimators": 220,
+        "learning_rate": 0.05,
+        "num_leaves": 7,
+        "max_depth": 5,
+        "min_child_samples": 20,
+        "reg_lambda": 1.5
+      },
+      "mae_kwh": 5.48225626480624,
+      "rmse_kwh": 18.681867264791233,
+      "wape_pct": 55.85695808395772,
+      "sample_count": 4752,
+      "actual_energy_kwh": 46639.993769802815
+    }
+  ],
+  "selected_parameters": {
+    "n_estimators": 350,
+    "learning_rate": 0.03,
+    "num_leaves": 31,
+    "max_depth": -1,
+    "min_child_samples": 40,
+    "reg_lambda": 2.0
+  },
+  "validation": {
+    "model": {
+      "mae_kwh": 5.217826796809332,
+      "rmse_kwh": 17.351465974615635,
+      "wape_pct": 53.16277069164534,
+      "sample_count": 4752,
+      "actual_energy_kwh": 46639.993769802815
+    },
+    "seasonal_naive_previous_day_24h": {
+      "mae_kwh": 8.586656857751382,
+      "rmse_kwh": 32.50094801627808,
+      "wape_pct": 87.4867041994613,
+      "sample_count": 4752,
+      "actual_energy_kwh": 46639.993769802815
+    },
+    "seasonal_naive_previous_week_168h": {
+      "mae_kwh": 7.308379095977681,
+      "rmse_kwh": 27.385204257837866,
+      "wape_pct": 74.46274035862243,
+      "sample_count": 4752,
+      "actual_energy_kwh": 46639.993769802815
+    }
+  },
+  "test": {
+    "model": {
+      "mae_kwh": 5.440288654807893,
+      "rmse_kwh": 18.582666905109328,
+      "wape_pct": 49.41263600981516,
+      "sample_count": 4753,
+      "actual_energy_kwh": 52330.120520519544
+    },
+    "seasonal_naive_previous_day_24h": {
+      "mae_kwh": 9.186489083691939,
+      "rmse_kwh": 33.98419238269269,
+      "wape_pct": 83.43833757781356,
+      "sample_count": 4753,
+      "actual_energy_kwh": 52330.120520519544
+    },
+    "seasonal_naive_previous_week_168h": {
+      "mae_kwh": 7.397842529128944,
+      "rmse_kwh": 24.316440450348093,
+      "wape_pct": 67.1925560101897,
+      "sample_count": 4753,
+      "actual_energy_kwh": 52330.120520519544
+    },
+    "beats_previous_day_baseline": true,
+    "beats_previous_week_baseline": true,
+    "by_site": {
+      "0001": {
+        "model": {
+          "mae_kwh": 14.391345229677887,
+          "rmse_kwh": 35.95102816987535,
+          "wape_pct": 43.335981660143844,
+          "sample_count": 909,
+          "actual_energy_kwh": 30186.769314166668
+        },
+        "seasonal_naive_previous_day_24h": {
+          "mae_kwh": 27.00663129018457,
+          "rmse_kwh": 70.14080017043727,
+          "wape_pct": 81.32379979879761,
+          "sample_count": 909,
+          "actual_energy_kwh": 30186.769314166668
+        },
+        "seasonal_naive_previous_week_168h": {
+          "mae_kwh": 20.552533898973227,
+          "rmse_kwh": 49.24488982027612,
+          "wape_pct": 61.88887959401165,
+          "sample_count": 909,
+          "actual_energy_kwh": 30186.769314166668
+        }
+      },
+      "0002": {
+        "model": {
+          "mae_kwh": 15.371750186235126,
+          "rmse_kwh": 24.64852023015352,
+          "wape_pct": 50.14270791613346,
+          "sample_count": 617,
+          "actual_energy_kwh": 18914.75402718621
+        },
+        "seasonal_naive_previous_day_24h": {
+          "mae_kwh": 22.319640975705045,
+          "rmse_kwh": 37.474544566931634,
+          "wape_pct": 72.8067542523504,
+          "sample_count": 617,
+          "actual_energy_kwh": 18914.75402718621
+        },
+        "seasonal_naive_previous_week_168h": {
+          "mae_kwh": 17.883648085007895,
+          "rmse_kwh": 27.111154868593058,
+          "wape_pct": 58.33652847184996,
+          "sample_count": 617,
+          "actual_energy_kwh": 18914.75402718621
+        }
+      },
+      "0019": {
+        "model": {
+          "mae_kwh": 1.0200152766091255,
+          "rmse_kwh": 5.326799944324456,
+          "wape_pct": 101.95106775343342,
+          "sample_count": 3227,
+          "actual_energy_kwh": 3228.5971791666666
+        },
+        "seasonal_naive_previous_day_24h": {
+          "mae_kwh": 1.6557596188410286,
+          "rmse_kwh": 6.8370097087139765,
+          "wape_pct": 165.4940518587431,
+          "sample_count": 3227,
+          "actual_energy_kwh": 3228.5971791666666
+        },
+        "seasonal_naive_previous_week_168h": {
+          "mae_kwh": 1.6874748553868402,
+          "rmse_kwh": 6.874749562084714,
+          "wape_pct": 168.66400656829128,
+          "sample_count": 3227,
+          "actual_energy_kwh": 3228.5971791666666
+        }
+      }
+    },
+    "beats_best_seasonal_naive_baseline": true,
+    "mae_improvement_vs_best_naive_pct": 26.461145484148908
+  },
+  "quantile_test_coverage": {
+    "p10_actual_le_forecast": 0.7927624658110667,
+    "p50_actual_le_forecast": 0.8474647590995161,
+    "p90_actual_le_forecast": 0.9320429202608879,
+    "p10_to_p90_interval_coverage": 0.9076372817168105,
+    "p10_to_p90_mean_width_kwh": 17.849209831763698,
+    "nominal_expected_p10_p50_p90_coverage": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "nominal_expected_p10_p90_interval_coverage": 0.8
+  },
+  "weather_features_used": false,
+  "weather_note": "No reliable weather observations were included in the uploaded data; weather features were omitted.",
+  "data_quality": {
+    "source_files": [
+      {
+        "file": "data\\raw\\acn_sessions.json",
+        "parse_mode": "strict_json",
+        "complete_items": 25462,
+        "truncated": false,
+        "meta": {
+          "dataset": "ACN-Data session exports supplied in this conversation",
+          "records_recovered": 25462,
+          "source_exports": [
+            {
+              "uploaded_file": "acndata_sessions.json",
+              "parse_mode": "recovered_complete_items",
+              "complete_items": 12199,
+              "truncated": true
+            },
+            {
+              "uploaded_file": "acndata_sessions (1).json",
+              "parse_mode": "recovered_complete_items",
+              "complete_items": 11580,
+              "truncated": true
+            },
+            {
+              "uploaded_file": "acndata_sessions (2).json",
+              "parse_mode": "strict_json",
+              "complete_items": 1683,
+              "truncated": false
+            }
+          ],
+          "note": "Complete JSON session objects recovered from three uploaded exports. Source exports were tail-truncated; any incomplete final object was not recovered. This is not represented as a complete ACN database dump."
+        }
+      }
+    ],
+    "source_record_count": 25462,
+    "duplicate_records_removed": 0,
+    "unique_record_count_before_validation": 25462,
+    "records_retained": 25462,
+    "missing_connectionTime": 0,
+    "invalid_connectionTime": 0,
+    "missing_kWhDelivered": 0,
+    "invalid_or_nonfinite_kWhDelivered": 0,
+    "negative_kWhDelivered": 0,
+    "missing_timezone": 0,
+    "invalid_timezone_values": [],
+    "missing_siteID": 0,
+    "invalid_or_missing_siteID": 0,
+    "top_level_fields": [
+      "_id",
+      "clusterID",
+      "connectionTime",
+      "disconnectTime",
+      "doneChargingTime",
+      "kWhDelivered",
+      "sessionID",
+      "siteID",
+      "spaceID",
+      "stationID",
+      "timezone",
+      "userID",
+      "userInputs"
+    ],
+    "nested_userInputs_fields": [
+      "WhPerMile",
+      "kWhRequested",
+      "milesRequested",
+      "minutesAvailable",
+      "modifiedAt",
+      "paymentRequired",
+      "requestedDeparture",
+      "userID"
+    ],
+    "top_level_field_counts": {
+      "_id": 25462,
+      "clusterID": 25462,
+      "connectionTime": 25462,
+      "disconnectTime": 25462,
+      "doneChargingTime": 25462,
+      "kWhDelivered": 25462,
+      "sessionID": 25462,
+      "siteID": 25462,
+      "spaceID": 25462,
+      "stationID": 25462,
+      "timezone": 25462,
+      "userID": 25462,
+      "userInputs": 25462
+    },
+    "nested_userInputs_field_counts": {
+      "WhPerMile": 15594,
+      "kWhRequested": 15594,
+      "milesRequested": 15594,
+      "minutesAvailable": 15594,
+      "modifiedAt": 15594,
+      "paymentRequired": 15594,
+      "requestedDeparture": 15594,
+      "userID": 15594
+    },
+    "site_ids_after_normalization": [
+      "0001",
+      "0002",
+      "0019"
+    ],
+    "site_timezones": {
+      "0001": [
+        "America/Los_Angeles"
+      ],
+      "0002": [
+        "America/Los_Angeles"
+      ],
+      "0019": [
+        "America/Los_Angeles"
+      ]
+    },
+    "timezone_handling": "connectionTime parsed as UTC, converted to each record's timezone before local-hour binning",
+    "target_definition": "sum(kWhDelivered) for sessions whose connectionTime falls in the site-local hour",
+    "target_interpretation": "arrival-cohort energy demand; not physical consumption during the same clock hour",
+    "features_excluded_to_avoid_leakage": [
+      "disconnectTime",
+      "doneChargingTime",
+      "kWhDelivered from the target hour",
+      "nested userInputs.kWhRequested",
+      "nested userInputs.requestedDeparture"
+    ],
+    "weather_available": false,
+    "weather_note": "No joined weather observations are present in the uploaded session exports."
+  },
+  "hourly_aggregation_quality": {
+    "hourly_rows": 32184,
+    "zero_recorded_arrival_hours_inserted": 25324,
+    "site_summary": {
+      "0001": {
+        "timezone": "America/Los_Angeles",
+        "first_hour_local": "2018-09-05T04:00:00-07:00",
+        "last_hour_local": "2019-05-22T15:00:00-07:00",
+        "hour_rows": 6228,
+        "hours_with_recorded_arrivals": 2270,
+        "zero_recorded_arrival_hours": 3958,
+        "session_count": 11580,
+        "arrival_energy_kwh": 156576.18033055554
+      },
+      "0002": {
+        "timezone": "America/Los_Angeles",
+        "first_hour_local": "2018-04-25T04:00:00-07:00",
+        "last_hour_local": "2018-10-20T09:00:00-07:00",
+        "hour_rows": 4278,
+        "hours_with_recorded_arrivals": 3168,
+        "zero_recorded_arrival_hours": 1110,
+        "session_count": 12199,
+        "arrival_energy_kwh": 109544.88781373035
+      },
+      "0019": {
+        "timezone": "America/Los_Angeles",
+        "first_hour_local": "2019-03-25T09:00:00-07:00",
+        "last_hour_local": "2021-09-13T14:00:00-07:00",
+        "hour_rows": 21678,
+        "hours_with_recorded_arrivals": 1422,
+        "zero_recorded_arrival_hours": 20256,
+        "session_count": 1683,
+        "arrival_energy_kwh": 29072.239995833334
+      }
+    },
+    "zero_hour_interpretation": "No session start was recorded in that site-local hour between the first and last observed session. This assumes the downloaded export is complete over those intervals; source completeness is not certified.",
+    "dst_note": "Hourly bins are formed from site-local wall-clock boundaries with UTC offsets preserved; repeated DST hours remain distinct instants."
+  },
+  "feature_columns": [
+    "hour_of_day",
+    "day_of_week",
+    "is_weekend",
+    "month",
+    "site_id",
+    "lag_1h_kwh",
+    "lag_24h_kwh",
+    "lag_168h_kwh",
+    "rolling_mean_24h_kwh",
+    "rolling_mean_168h_kwh",
+    "rolling_std_168h_kwh"
+  ],
+  "feature_engineering": "All lags and rolling statistics use prior observations only (shift(1)); 168-hour warm-up rows excluded.",
+  "geographic_transfer_warning": "All supplied sites are in America/Los_Angeles. This fitted model represents those ACN sites only; it is not calibrated to Delhi NCR, Mumbai MMR, Bengaluru, Hyderabad, or Chennai.",
+  "conclusion": "LightGBM beats both seasonal-naive baselines on test MAE. This supports further site-specific validation, not transfer to Indian metro clusters.",
+  "next_hour_forecast_note": "One step after the final available observation for each site. These timestamps follow the supplied historical records (2018-2021), not the current date; forecasts are a pipeline demonstration, not live operational forecasts. Each site has a different latest observation timestamp.",
+  "next_hour_forecast_rows": [
+    {
+      "timestamp": "2019-05-22T16:00:00-07:00",
+      "site_id": "0001",
+      "predicted_demand_kwh": 21.521658973807824,
+      "p10_demand_kwh": 0.0,
+      "p50_demand_kwh": 12.736456471091778,
+      "p90_demand_kwh": 34.44253146008563
+    },
+    {
+      "timestamp": "2018-10-20T10:00:00-07:00",
+      "site_id": "0002",
+      "predicted_demand_kwh": 17.158395829249702,
+      "p10_demand_kwh": 1.5094949057378284,
+      "p50_demand_kwh": 18.005056852716045,
+      "p90_demand_kwh": 52.0316644523103
+    },
+    {
+      "timestamp": "2021-09-13T15:00:00-07:00",
+      "site_id": "0019",
+      "predicted_demand_kwh": 0.0,
+      "p10_demand_kwh": 0.0,
+      "p50_demand_kwh": 7.941023674229173e-05,
+      "p90_demand_kwh": 6.465294453372481
+    }
+  ],
+  "artifacts": {
+    "model": "models\\ev_demand_lightgbm.joblib",
+    "test_predictions": "results/test_predictions.csv",
+    "next_hour_forecast": "results/forecast_for_simulator.csv",
+    "hourly_site_demand": "results/hourly_site_demand.csv",
+    "feature_importance": "results/feature_importance.csv"
+  }
+}
