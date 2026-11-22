@@ -27,41 +27,96 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
-:root { --ink:#091521; --panel:#102434; --line:#1c3a4b; --teal:#39d0c3; --green:#76d7a6; --muted:#91a8b8; }
-.stApp { background: radial-gradient(circle at 72% -8%, #17384a 0%, #0b1b28 34%, #07121c 78%); color:#eaf2f7; }
-html, body, [class*="css"] { font-family: 'Manrope', sans-serif; }
-.block-container { padding-top: 1.2rem; padding-bottom: 2rem; max-width: 1600px; }
-section[data-testid="stSidebar"] { background: #081722; border-right:1px solid #1c3a4b; }
-section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] p { color:#d9e6ed !important; }
-section[data-testid="stSidebar"] [data-testid="stExpander"] { border:1px solid #1c3a4b; border-radius:12px; background:#0d202d; }
-.pg-brand { display:flex; align-items:center; gap:12px; margin-bottom:6px; }
-.pg-orb { width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#39d0c3,#2c7f88);display:flex;align-items:center;justify-content:center;color:#06141d;font-size:21px;font-weight:900;box-shadow:0 0 28px #39d0c328; }
-.pg-eyebrow { color:#75bdb9; letter-spacing:2px; text-transform:uppercase; font-size:10px; font-weight:800; }
-.pg-title { font-size:32px;line-height:1.1;font-weight:800;letter-spacing:-1px;color:#f2f7fa;margin:3px 0 4px; }
-.pg-subtitle { color:#9bb1bf;font-size:13px;margin-bottom:16px; }
-.pg-strip { border:1px solid #1c4351; background:linear-gradient(90deg,#102c38,#102333); border-radius:12px; padding:10px 14px; color:#b9d0d8; font-size:12px; margin-bottom:14px; }
-.pg-section { font-size:19px;font-weight:800;letter-spacing:-.3px;color:#eff7f9;margin:4px 0 12px; }
-.pg-kpi { background:linear-gradient(145deg,#122b3b,#0d202d); border:1px solid #214254; border-radius:13px; padding:14px 15px 12px; min-height:102px; box-shadow:0 7px 24px #02080d25; }
-.pg-kpi-label { color:#91a8b8; font-size:10px; text-transform:uppercase; letter-spacing:1.15px; font-weight:800; }
-.pg-kpi-value { color:#f2f7fa; font-size:24px; font-weight:800; margin-top:7px; letter-spacing:-.5px; font-variant-numeric:tabular-nums; }
-.pg-kpi-delta { color:#70c9b6; font-size:10px; margin-top:1px; }
-.pg-card { border:1px solid #1c3a4b; background:#0d202d; border-radius:14px; padding:14px 16px; }
-.pg-card-title { font-size:13px;font-weight:800;color:#dcecf1;margin-bottom:8px; }
-.pg-note { font-size:11px;color:#91a8b8;line-height:1.55; }
-.pg-warning { border:1px solid #755b2c;background:#2a2418;border-radius:12px;padding:12px 14px;color:#f1d6a0;font-size:11px;line-height:1.6; }
-.pg-good { border:1px solid #246452;background:#102a27;border-radius:12px;padding:11px 13px;color:#b7e6d5;font-size:11px;line-height:1.5; }
-.pg-mini { color:#9eb3bf;font-size:10px; }
-div[data-testid="stMetric"] { background:#102434;border:1px solid #214254;border-radius:12px;padding:10px 12px; }
-div[data-testid="stMetricLabel"] { color:#91a8b8 !important; }
-div[data-testid="stMetricValue"] { color:#f1f7fa !important; }
-.stTabs [data-baseweb="tab-list"] { gap:5px; border-bottom:1px solid #1c3a4b; }
-.stTabs [data-baseweb="tab"] { color:#9bb1bf; background:#0d202d; border:1px solid #1c3a4b; border-radius:9px 9px 0 0; padding:8px 13px; }
-.stTabs [aria-selected="true"] { color:#39d0c3 !important; background:#122c3a !important; border-bottom-color:#39d0c3 !important; }
-.stButton button, .stDownloadButton button { background:#123b46;color:#dffbf6;border:1px solid #2b7880;border-radius:9px; }
-.stButton button:hover, .stDownloadButton button:hover { background:#195562;color:white;border-color:#39d0c3; }
-[data-testid="stDataFrame"] { border:1px solid #1c3a4b; border-radius:10px; overflow:hidden; }
-hr { border-color:#1c3a4b; }
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+:root {
+  --pg-bg:#071521;
+  --pg-sidebar:#0A1925;
+  --pg-card:#102433;
+  --pg-surface:#142B3A;
+  --pg-teal:#25C8BD;
+  --pg-green:#65D6A2;
+  --pg-text:#F0F5F8;
+  --pg-muted:#9BAFBD;
+  --pg-border:#24404F;
+}
+.stApp { background:var(--pg-bg); color:var(--pg-text); }
+html, body, [class*="css"] { font-family:'Manrope',sans-serif; }
+.block-container { padding:1.35rem 2rem 2.1rem; max-width:1540px; }
+section[data-testid="stSidebar"] { background:var(--pg-sidebar); border-right:1px solid var(--pg-border); }
+section[data-testid="stSidebar"] > div { padding-top:1.1rem; }
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] p { color:#DCE7ED !important; }
+section[data-testid="stSidebar"] [data-testid="stCaptionContainer"] { color:var(--pg-muted); }
+section[data-testid="stSidebar"] [data-testid="stExpander"] {
+  border:1px solid var(--pg-border); border-radius:10px; background:#0D202D;
+  margin-bottom:7px;
+}
+section[data-testid="stSidebar"] [data-testid="stExpander"] details summary { padding:0.55rem 0.75rem; }
+section[data-testid="stSidebar"] [data-testid="stExpander"] details summary p { font-size:12px; font-weight:700; }
+section[data-testid="stSidebar"] [data-testid="stSlider"] { padding-top:0.1rem; padding-bottom:0.35rem; }
+section[data-testid="stSidebar"] [data-testid="stSlider"] label p { font-size:11px; line-height:1.35; }
+section[data-testid="stSidebar"] [data-testid="stSelectbox"] label p { font-size:11px; }
+.pg-brand { display:flex; align-items:center; gap:10px; margin:0 0 8px; }
+.pg-orb {
+  width:36px; height:36px; border-radius:10px; background:var(--pg-teal);
+  display:flex; align-items:center; justify-content:center; color:#06141D;
+  font-size:20px; font-weight:900;
+}
+.pg-eyebrow { color:#79C9C2; letter-spacing:1.6px; text-transform:uppercase; font-size:9px; font-weight:800; }
+.pg-title { font-size:29px; line-height:1.15; font-weight:800; letter-spacing:-0.8px; color:var(--pg-text); margin:2px 0 4px; }
+.pg-subtitle { color:var(--pg-muted); font-size:12px; line-height:1.5; margin-bottom:12px; }
+.pg-strip {
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:7px 14px;
+  border:1px solid var(--pg-border); background:#0E2230; border-radius:9px;
+  padding:8px 12px; color:#C3D3DC; font-size:11px; line-height:1.45; margin:0 0 14px;
+}
+.pg-strip strong { color:#DDF7F3; font-size:10px; letter-spacing:.45px; }
+.pg-strip-status { color:var(--pg-green); font-size:10px; font-weight:800; letter-spacing:.5px; white-space:nowrap; }
+.pg-section { font-size:20px; font-weight:800; letter-spacing:-.35px; color:var(--pg-text); margin:2px 0 4px; }
+[data-testid="stCaptionContainer"] { color:var(--pg-muted); font-size:11px; line-height:1.55; }
+.pg-kpi {
+  background:var(--pg-card); border:1px solid var(--pg-border); border-top:2px solid #278F90;
+  border-radius:10px; padding:12px 13px 11px; min-height:98px;
+}
+.pg-kpi-label { color:var(--pg-muted); font-size:9px; text-transform:uppercase; letter-spacing:1px; font-weight:800; line-height:1.4; }
+.pg-kpi-value { color:var(--pg-text); font-size:22px; font-weight:800; margin-top:7px; letter-spacing:-.4px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.pg-kpi-delta { color:#83CDBB; font-size:9px; line-height:1.45; margin-top:3px; }
+.pg-card { border:1px solid var(--pg-border); background:var(--pg-card); border-radius:10px; padding:13px 15px; }
+.pg-card-title { font-size:11px; font-weight:800; color:#DCEAF0; letter-spacing:.45px; margin:8px 0 7px; }
+.pg-note { font-size:10px; color:var(--pg-muted); line-height:1.55; }
+.pg-good {
+  border-left:2px solid var(--pg-teal); background:#0D222D; border-radius:0 7px 7px 0;
+  padding:8px 11px; color:#BBD4D7; font-size:10px; line-height:1.55;
+}
+.pg-mini { color:var(--pg-muted); font-size:9px; }
+div[data-testid="stMetric"] { background:var(--pg-card); border:1px solid var(--pg-border); border-radius:9px; padding:9px 11px; }
+div[data-testid="stMetricLabel"] { color:var(--pg-muted) !important; font-size:10px !important; }
+div[data-testid="stMetricValue"] { color:var(--pg-text) !important; font-size:20px !important; }
+.stTabs [data-baseweb="tab-list"] { gap:4px; border-bottom:1px solid var(--pg-border); flex-wrap:wrap; }
+.stTabs [data-baseweb="tab"] {
+  color:var(--pg-muted); background:transparent; border:0; border-bottom:2px solid transparent;
+  border-radius:0; padding:9px 11px; font-size:11px; font-weight:600;
+}
+.stTabs [aria-selected="true"] { color:var(--pg-teal) !important; background:transparent !important; border-bottom:2px solid var(--pg-teal) !important; }
+.stButton button, .stDownloadButton button {
+  background:#123B46; color:#E4F8F5; border:1px solid #2B6870; border-radius:8px;
+  min-height:38px; font-size:11px; font-weight:700;
+}
+.stButton button:hover, .stDownloadButton button:hover { background:#174B54; color:white; border-color:var(--pg-teal); }
+[data-testid="stDataFrame"] { border:1px solid var(--pg-border); border-radius:9px; overflow:hidden; }
+div[data-testid="stExpander"] { border:1px solid var(--pg-border); border-radius:9px; background:#0D202D; }
+div[data-testid="stExpander"] details summary p { color:#DCEAF0; font-size:12px; font-weight:700; }
+hr { border-color:var(--pg-border); }
+@media (max-width: 1100px) {
+  .block-container { padding-left:1.1rem; padding-right:1.1rem; }
+  .pg-title { font-size:26px; }
+  .pg-kpi-value { font-size:19px; }
+}
+@media (max-width: 700px) {
+  .block-container { padding:1rem .8rem 1.5rem; }
+  .pg-title { font-size:24px; }
+  .stTabs [data-baseweb="tab"] { padding:8px 7px; font-size:10px; }
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -96,15 +151,16 @@ def rupees(value: float) -> str:
 # Sidebar controls ----------------------------------------------------------------
 st.sidebar.markdown("<div class='pg-brand'><div class='pg-orb'>ϟ</div><div><div class='pg-eyebrow'>Energy decision system</div><div style='font-size:18px;font-weight:800;color:#eef7fa'>PERISHABLE GRID</div></div></div>", unsafe_allow_html=True)
 st.sidebar.caption("SIMULATION CONTROLS · synthetic inputs")
-scenario = st.sidebar.selectbox("Operating scenario", SCENARIOS, index=0)
+with st.sidebar.expander("01 · Operating scenario", expanded=True):
+    scenario = st.selectbox("Select operating scenario", SCENARIOS, index=0, key="operating_scenario")
 
-with st.sidebar.expander("01 · Trading & procurement", expanded=True):
+with st.sidebar.expander("02 · Energy trading & procurement", expanded=False):
     discom_tariff = st.slider("DISCOM tariff (₹/kWh)", 4.0, 14.0, 8.5, 0.1)
     iex_multiplier = st.slider("Synthetic IEX-style price multiplier", 0.50, 1.75, 1.00, 0.05)
     renewable_cost = st.slider("Renewable supply cost (₹/kWh)", 1.5, 8.0, 3.5, 0.1)
     grid_limit = st.slider("Grid import limit per metro (MW)", 15, 70, 38, 1)
 
-with st.sidebar.expander("02 · Battery health & power", expanded=True):
+with st.sidebar.expander("03 · Battery health & power", expanded=False):
     rapid_share_pct = st.slider("Rapid allocation (%)", 50, 90, 70, 1)
     rapid_soh_pct = st.slider("Rapid battery SoH (%)", 70, 100, 90, 1)
     second_soh_pct = st.slider("Second-life battery SoH (%)", 50, 95, 80, 1)
@@ -115,13 +171,20 @@ with st.sidebar.expander("02 · Battery health & power", expanded=True):
     rapid_wear = st.slider("Rapid wear-cost proxy (₹/kWh)", 0.2, 10.0, 1.2, 0.1)
     second_wear = st.slider("Second-life wear-cost proxy (₹/kWh)", 0.1, 10.0, 0.65, 0.05)
 
-with st.sidebar.expander("03 · Customer flexibility & SLA", expanded=True):
+with st.sidebar.expander("04 · Customer demand & incentives", expanded=False):
     flexible_pct = st.slider("Flexible demand share (%)", 0, 80, 40, 1)
     shift_pct = st.slider("Flexible peak demand shifted (%)", 0, 30, 15, 1)
     discount_pct = st.slider("Shift incentive / discount (%)", 0, 20, 10, 1)
     elasticity = st.slider("Customer price-elasticity assumption", 0.0, 2.0, 1.0, 0.1)
     delay_cost = st.slider("Customer delay / detour cost proxy (₹/kWh)", 0.0, 5.0, 0.5, 0.1)
     retail_tariff = st.slider("Base customer tariff (₹/kWh)", 11.2, 16.8, 14.0, 0.1)
+
+with st.sidebar.expander("05 · Simulation & policy", expanded=False):
+    st.caption("Seed 42 · 14 synthetic test days · five independent metro clusters")
+    selected_policy = st.selectbox(
+        "Hourly trace policy", POLICIES, index=3,
+        format_func=lambda policy: POLICY_LABELS[policy], key="results_policy",
+    )
 
 params = {
     "seed": 42,
@@ -195,11 +258,11 @@ scenario_notes = {
     SCENARIOS[2]: "Synthetic customer demand is increased by 18% across the test window.",
     SCENARIOS[3]: "Solar generation is increased by 22% while demand is reduced by 10% to represent a low-load surplus case.",
 }
-st.markdown(f"<div class='pg-strip'><b>SCENARIO · {scenario.upper()}</b> &nbsp; {scenario_notes[scenario]} &nbsp; <span style='color:#6ad6c8'>● RECOMPUTED</span></div>", unsafe_allow_html=True)
-
-st.markdown("""
-<div class='pg-warning'><b>Prototype boundary.</b> This is a transparent heuristic, not a solved MILP and not a trained TFT/XGBoost model. Prices are synthetic, not live IEX prices, and no bids are placed. No VPP revenue or inter-metro energy transfer is included. Gross contribution is not EBITDA. The simplified loss proxy is not directly comparable with the case's 10% loss reference. Case reliability, loss and EBITDA targets are shown as comparison references, not enforced constraints.</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    f"<div class='pg-strip'><span><strong>SCENARIO · {scenario.upper()}</strong> &nbsp; {scenario_notes[scenario]}</span>"
+    "<span class='pg-strip-status'>● SIMULATION RECOMPUTED</span></div>",
+    unsafe_allow_html=True,
+)
 
 # Main section tabs ----------------------------------------------------------------
 tabs = st.tabs([
@@ -220,20 +283,30 @@ with tabs[0]:
     with c4: kpi("Renewable utilisation", f"{full_summary.renewable_utilisation_pct:.1f}%", "Synthetic renewable supply used")
     with c5: kpi("Peak grid utilisation", f"{full_summary.peak_grid_utilisation_pct:.1f}%", "Full policy · grid cap per metro")
 
-    left, right = st.columns([1.35, 1])
-    with left:
-        st.plotly_chart(cluster_overview_chart(cluster_summary), use_container_width=True, config={"displayModeBar": False}, key="chart_network_cluster_overview")
-    with right:
-        st.markdown("<div class='pg-card-title'>CLUSTER OPERATING SNAPSHOT · FULL POLICY</div>", unsafe_allow_html=True)
-        display_cluster = cluster_summary[["cluster", "forecast_demand_mwh", "grid_mwh", "reliability_pct", "mean_soc_mwh", "peak_grid_utilisation_pct", "congestion"]].copy()
-        display_cluster.columns = ["Metro", "Forecast MWh", "Grid MWh", "Reliability %", "Mean SoC MWh", "Peak grid %", "Congestion"]
-        display_cluster["Forecast MWh"] = display_cluster["Forecast MWh"].map(lambda x: f"{x:,.0f}")
-        display_cluster["Grid MWh"] = display_cluster["Grid MWh"].map(lambda x: f"{x:,.0f}")
-        display_cluster["Reliability %"] = display_cluster["Reliability %"].map(lambda x: f"{x:.1f}%")
-        display_cluster["Mean SoC MWh"] = display_cluster["Mean SoC MWh"].map(lambda x: f"{x:.1f}")
-        display_cluster["Peak grid %"] = display_cluster["Peak grid %"].map(lambda x: f"{x:.0f}%")
-        st.dataframe(display_cluster, use_container_width=True, hide_index=True, height=260)
-        st.markdown("<div class='pg-note'>Congestion is flagged from peak grid-import utilisation: Normal &lt;80%, Elevated 80–94%, High ≥95%. These are dashboard thresholds, not grid-code limits.</div>", unsafe_allow_html=True)
+    st.plotly_chart(
+        cluster_overview_chart(cluster_summary), use_container_width=True,
+        config={"displayModeBar": False}, key="chart_network_cluster_overview",
+    )
+    st.markdown("<div class='pg-card-title'>CLUSTER OPERATING SNAPSHOT · FULL POLICY</div>", unsafe_allow_html=True)
+    display_cluster = cluster_summary[[
+        "cluster", "forecast_demand_mwh", "grid_mwh", "reliability_pct",
+        "mean_soc_mwh", "peak_grid_utilisation_pct", "congestion",
+    ]].copy()
+    display_cluster.columns = [
+        "Metro", "Forecast MWh", "Grid MWh", "Reliability %",
+        "Mean SoC MWh", "Peak grid %", "Congestion",
+    ]
+    display_cluster["Forecast MWh"] = display_cluster["Forecast MWh"].map(lambda x: f"{x:,.0f}")
+    display_cluster["Grid MWh"] = display_cluster["Grid MWh"].map(lambda x: f"{x:,.0f}")
+    display_cluster["Reliability %"] = display_cluster["Reliability %"].map(lambda x: f"{x:.1f}%")
+    display_cluster["Mean SoC MWh"] = display_cluster["Mean SoC MWh"].map(lambda x: f"{x:.1f}")
+    display_cluster["Peak grid %"] = display_cluster["Peak grid %"].map(lambda x: f"{x:.0f}%")
+    st.dataframe(display_cluster, use_container_width=True, hide_index=True, height=225)
+    st.markdown(
+        "<div class='pg-note'>Congestion uses peak grid-import utilisation: Normal &lt;80%, Elevated 80–94%, High ≥95%. "
+        "These are dashboard thresholds, not grid-code limits.</div>",
+        unsafe_allow_html=True,
+    )
 
     st.markdown("<div class='pg-card-title'>TRIPLE-SCARCITY DECISION LENS</div>", unsafe_allow_html=True)
     median_grid_price = min(float(data.forecast_iex_price_rs_kwh.median()), params["discom_tariff_rs_kwh"])
@@ -374,7 +447,7 @@ with tabs[4]:
     with chart_f:
         st.plotly_chart(policy_bar(summary, "renewable_utilisation_pct", "Renewable utilisation", "Utilisation (%)", suffix="%"), use_container_width=True, config={"displayModeBar": False}, key="chart_results_renewable_utilisation")
 
-    selected_policy = st.selectbox("Hourly trace policy", POLICIES, index=3, format_func=lambda x: POLICY_LABELS[x], key="results_policy")
+    st.caption(f"Hourly trace policy: {POLICY_LABELS[selected_policy]} · change it in the sidebar under Simulation & policy.")
     hourly_metro = st.selectbox("Hourly trace metro", ["All metros"] + CLUSTERS, key="results_metro")
     st.plotly_chart(hourly_supply_chart(hourly, selected_policy, hourly_metro), use_container_width=True, config={"displayModeBar": False}, key="chart_results_hourly_supply")
     soc_metro = st.selectbox("Battery SoC metro", CLUSTERS, index=0, key="results_soc_metro")
@@ -427,7 +500,29 @@ with tabs[4]:
     with d3:
         st.download_button("↓ Forecast & scenario inputs CSV", data_csv, file_name="perishable_grid_scenario_inputs.csv", mime="text/csv", use_container_width=True)
 
-    st.markdown("<div class='pg-warning'><b>Interpretation guardrails.</b> Reliability target = 89.7%; case-reported current reliability = 78%; synthetic rule baseline is generated by this model and is not calibrated to 78%. The 8% loss target and 10% case loss reference are not comparable with this simplified loss proxy. Gross contribution excludes fixed O&M, capex, taxes and depreciation, so it is not EBITDA and cannot establish the &gt;12% EBITDA target.</div>", unsafe_allow_html=True)
+    with st.expander("Model Assumptions & Limitations", expanded=False):
+        st.markdown(
+            """
+            **Dispatch and forecasting**
+            - Dispatch is a transparent hourly heuristic, not a solved MILP or production MPC.
+            - The forecast is a one-day seasonal-naive baseline (same metro and hour from the previous day), not a trained TFT, XGBoost or other machine-learning model.
+
+            **Markets and energy flows**
+            - IEX-style prices, renewable profiles and scenario shocks are synthetic assumptions. No live IEX connection or bids are placed.
+            - VPP and ancillary-service revenue are excluded.
+            - Energy and demand shifting remain within each metro. No inter-metro energy transfer or physical pack transportation is modelled.
+
+            **Battery representation**
+            - The Rapid / second-life allocation is a configurable simulation assumption, not an optimiser-selected assignment or individual pack reassignment.
+            - SoH-tier capacities, inverter limits and the 5% energy reserve are represented by the prototype's simplified storage model.
+
+            **Financial and target interpretation**
+            - Gross contribution is not EBITDA; fixed O&M, capex, taxes and depreciation are excluded.
+            - The simplified loss proxy is not directly comparable with the case's 10% loss reference or 8% target because the metering boundary is not provided.
+            - Reliability (89.7%), loss (8%) and EBITDA (above 12%) are comparison targets, not optimisation constraints.
+            - The synthetic rule-based baseline is not calibrated to the case-reported 78% reliability.
+            """
+        )
 
 # Footer ---------------------------------------------------------------------------
 st.markdown("---")
